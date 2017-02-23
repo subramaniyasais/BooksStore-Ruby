@@ -1,0 +1,29 @@
+<% if notice %>
+<p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Product Catalog</h1>
+<form>
+  <% if params[:search] %>
+    <input type="text" name="search" value='<%= params[:search]%>' placeholder="Search Books">
+  <%else%>
+    <input type="text" name="search" placeholder="Search Books">
+  <%end%>
+
+  <button type="Submit">Search</button>
+  <%= link_to 'Clear', shopper_path %>
+</form>
+
+<div class="line"></div>
+<% @products.each do |product| %>
+  <div class="entry">
+    <%= image_tag(product.image) %>
+    <h3><%= product.name %></h3>
+    <p><b><%= product.author %></b></p>
+    <%= sanitize(product.description) %>
+    <div class="price_line">
+      <span class="price"><%= number_to_currency(product.price) %></span>
+      <%= button_to 'Add to Cart', line_items_path(product_id: product), class: 'add_to_cart', remote:true %>
+    </div>
+  </div>
+<% end %>
